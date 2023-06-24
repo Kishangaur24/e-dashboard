@@ -84,7 +84,7 @@ app.put("/product/:id",async(req,res)=>{
   res.send(result)
 })
 
-app.get("/search/:key",async(req,res)=>{
+app.get("/search/:key",verifyToken,async(req,res)=>{
   let result = await Product.find({
     "$or":[
        {name:{$regex:req.params.key}},
@@ -94,5 +94,10 @@ app.get("/search/:key",async(req,res)=>{
   })
   res.send(result)
 })
+
+function verifyToken(req,res,next){
+console.log("middleware called")
+next()
+}
 
 app.listen(7000);
